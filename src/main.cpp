@@ -1,3 +1,11 @@
+/**
+ * @file main.cpp
+ * @brief Entry point and display render loop for the Word Clock.
+ *
+ * Initialises the ST7701 display and the Pimoroni Presto hardware, connects
+ * to WiFi, synchronises time via NTP, then enters an infinite loop that
+ * redraws the word grid once per minute.
+ */
 #include "libraries/pico_graphics/pico_graphics.hpp"
 #include "drivers/st7701/st7701.hpp"
 
@@ -58,6 +66,15 @@ static PicoGraphics_PenRGB565 *g_display = nullptr;
 // msg is '\n'-delimited.  The first segment is rendered large (scale 3) in
 // PEN_LIT; each subsequent segment is rendered smaller (scale 2) in PEN_DIM.
 
+/**
+ * @brief Renders a status message on the display during initialisation.
+ *
+ * Used as a callback by time_manager_init() to show WiFi and NTP progress.
+ * @p msg is @c '\\n'-delimited: the first segment is drawn large (scale 3,
+ * PEN_LIT); each subsequent segment is drawn smaller (scale 2, PEN_DIM).
+ *
+ * @param msg  Null-terminated, @c '\\n'-delimited status string.
+ */
 static void render_status(const char *msg)
 {
     if (!g_display || !g_presto)
@@ -100,6 +117,15 @@ static void render_status(const char *msg)
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
+/**
+ * @brief Application entry point.
+ *
+ * Sets the system clock to 240 MHz, initialises the ST7701 display, connects
+ * to WiFi and syncs time via NTP, then loops indefinitely — redrawing the
+ * word grid whenever the current minute changes.
+ *
+ * @return This function never returns.
+ */
 int main()
 {
     set_sys_clock_khz(240000, true);

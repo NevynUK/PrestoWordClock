@@ -1,3 +1,11 @@
+/**
+ * @file word_clock.cpp
+ * @brief Letter grid definition and time-to-cell mapping implementation.
+ *
+ * Contains the GRID character array and the two internal helpers (light,
+ * light_hour) used by get_lit_cells() to illuminate the correct words for
+ * a given wall-clock time.
+ */
 #include "word_clock.hpp"
 
 // ─── Grid ────────────────────────────────────────────────────────────────────
@@ -22,6 +30,14 @@ const char GRID[GRID_ROWS][GRID_COLS + 1] = {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Lights a contiguous horizontal run of cells in the grid.
+ *
+ * @param lit  Grid state array to modify.
+ * @param row  Zero-based row index.
+ * @param col  Zero-based starting column.
+ * @param len  Number of consecutive columns to light.
+ */
 static void light(bool lit[GRID_ROWS][GRID_COLS], int row, int col, int len)
 {
     for (int i = 0; i < len; ++i)
@@ -30,6 +46,14 @@ static void light(bool lit[GRID_ROWS][GRID_COLS], int row, int col, int len)
     }
 }
 
+/**
+ * @brief Lights the hour word for a given hour value.
+ *
+ * Applies @c h % 12 so that both 0 and 12 map to TWELVE.
+ *
+ * @param lit  Grid state array to modify.
+ * @param h    Hour value (0–23); modulo 12 is applied internally.
+ */
 static void light_hour(bool lit[GRID_ROWS][GRID_COLS], int h)
 {
     switch (h % 12)

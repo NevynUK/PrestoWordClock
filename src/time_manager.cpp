@@ -1,3 +1,12 @@
+/**
+ * @file time_manager.cpp
+ * @brief WiFi connection and NTP synchronisation implementation.
+ *
+ * Uses the CYW43 WiFi driver (cyw43_arch) and lwIP's SNTP client to obtain
+ * and maintain an accurate wall-clock time.  Elapsed time since the last sync
+ * is tracked with the Pico SDK absolute_time API so that the display remains
+ * accurate between NTP resyncs.
+ */
 #include "time_manager.hpp"
 #include "wifi.h"
 
@@ -36,6 +45,15 @@ static ip_addr_t s_dns_addr;
 
 // ── Callbacks ─────────────────────────────────────────────────────────────────
 
+/**
+ * @brief lwIP SNTP callback — stores the synchronised Unix timestamp.
+ *
+ * Called by the SNTP client whenever a valid response is received.  lwIP has
+ * already applied the NTP-to-Unix epoch offset (DIFF_SEC_1970_2036) before
+ * invoking this function.
+ *
+ * @param sec  Seconds since the Unix epoch (1970-01-01 00:00:00 UTC).
+ */
 extern "C" void sntp_set_system_time(u32_t sec)
 {
     s_unix_epoch_secs = sec;
@@ -43,6 +61,13 @@ extern "C" void sntp_set_system_time(u32_t sec)
     printf("NTP: sync OK (Unix %lu)\n", (unsigned long) sec);
 }
 
+/**
+ * @brief lwIP DNS resolution callback used by test_dns().
+ *
+ * @param name  The hostname that was resolved (unused).
+ * @param addr  Resolved IP address, or @c nullptr on failure.
+ * @param arg   User argument (unused).
+ */
 static void dns_diag_callback(const char *name, const ip_addr_t *addr, void * /*arg*/)
 {
     s_dns_ok = (addr != nullptr);
@@ -55,6 +80,10 @@ static void dns_diag_callback(const char *name, const ip_addr_t *addr, void * /*
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
+/**
+ * @brief Prints the current IP address, gateway, netmask, and DNS servers to
+ *        stdout for diagnostic purposes.
+ */
 static void print_network_config()
 {
     cyw43_arch_lwip_begin();
@@ -80,6 +109,14 @@ static void print_network_config()
     cyw43_arch_lwip_end();
 }
 
+/**
+ * @brief Performs a one-shot DNS lookup to verify network connectivity.
+ *
+ * Resolves @p hostname and prints the result (or a failure message) to
+ * stdout.  Blocks for up to 8 seconds while waiting for a response.
+ *
+ * @param hostname  Hostname to resolve (e.g. @c "0.pool.ntp.org").
+ */
 static void test_dns(const char *hostname)
 {
     printf("DNS: resolving '%s'...\n", hostname);
