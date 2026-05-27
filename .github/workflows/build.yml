@@ -49,6 +49,9 @@ jobs:
           key: ccache-${{ runner.os }}-${{ github.sha }}
           restore-keys: ccache-${{ runner.os }}-
 
+      - name: Create dummy wifi.h
+        run: cp src/wifi.h.example src/wifi.h
+
       - name: Configure
         run: |
           cmake -B build \
