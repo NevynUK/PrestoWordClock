@@ -16,45 +16,64 @@
 //   9   TENSEOCLOCK   TEN-hr(0-2)  OCLOCK(5-10)
 
 const char GRID[GRID_ROWS][GRID_COLS + 1] = {
-    "ITLISASAMPM",
-    "ACQUARTERDC",
-    "TWENTYXFIVE",
-    "HALFSTENFTO",
-    "PASTERUNINE",
-    "ONESIXTHREE",
-    "FOURFIVETWO",
-    "EIGHTELEVEN",
-    "SEVENTWELVE",
-    "TENSEOCLOCK",
+    "ITLISASAMPM", "ACQUARTERDC", "TWENTYXFIVE", "HALFSTENFTO", "PASTERUNINE", "ONESIXTHREE", "FOURFIVETWO", "EIGHTELEVEN", "SEVENTWELVE", "TENSEOCLOCK",
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-static void light(bool lit[GRID_ROWS][GRID_COLS], int row, int col, int len) {
+static void light(bool lit[GRID_ROWS][GRID_COLS], int row, int col, int len)
+{
     for (int i = 0; i < len; ++i)
         lit[row][col + i] = true;
 }
 
-static void light_hour(bool lit[GRID_ROWS][GRID_COLS], int h) {
-    switch (h % 12) {
-        case  0: light(lit, 8, 5, 6); break; // TWELVE
-        case  1: light(lit, 5, 0, 3); break; // ONE
-        case  2: light(lit, 6, 8, 3); break; // TWO
-        case  3: light(lit, 5, 6, 5); break; // THREE
-        case  4: light(lit, 6, 0, 4); break; // FOUR
-        case  5: light(lit, 6, 4, 4); break; // FIVE
-        case  6: light(lit, 5, 3, 3); break; // SIX
-        case  7: light(lit, 8, 0, 5); break; // SEVEN
-        case  8: light(lit, 7, 0, 5); break; // EIGHT
-        case  9: light(lit, 4, 7, 4); break; // NINE
-        case 10: light(lit, 9, 0, 3); break; // TEN
-        case 11: light(lit, 7, 5, 6); break; // ELEVEN
+static void light_hour(bool lit[GRID_ROWS][GRID_COLS], int h)
+{
+    switch (h % 12)
+    {
+        case 0:
+            light(lit, 8, 5, 6);
+            break; // TWELVE
+        case 1:
+            light(lit, 5, 0, 3);
+            break; // ONE
+        case 2:
+            light(lit, 6, 8, 3);
+            break; // TWO
+        case 3:
+            light(lit, 5, 6, 5);
+            break; // THREE
+        case 4:
+            light(lit, 6, 0, 4);
+            break; // FOUR
+        case 5:
+            light(lit, 6, 4, 4);
+            break; // FIVE
+        case 6:
+            light(lit, 5, 3, 3);
+            break; // SIX
+        case 7:
+            light(lit, 8, 0, 5);
+            break; // SEVEN
+        case 8:
+            light(lit, 7, 0, 5);
+            break; // EIGHT
+        case 9:
+            light(lit, 4, 7, 4);
+            break; // NINE
+        case 10:
+            light(lit, 9, 0, 3);
+            break; // TEN
+        case 11:
+            light(lit, 7, 5, 6);
+            break; // ELEVEN
     }
 }
 
 // ─── Public API ──────────────────────────────────────────────────────────────
 
-void get_lit_cells(int hour, int minute, bool lit[GRID_ROWS][GRID_COLS]) {
+void get_lit_cells(int hour, int minute, bool lit[GRID_ROWS][GRID_COLS])
+{
     memset(lit, 0, sizeof(bool) * GRID_ROWS * GRID_COLS);
 
     // IT IS — always on
@@ -71,9 +90,11 @@ void get_lit_cells(int hour, int minute, bool lit[GRID_ROWS][GRID_COLS]) {
     if (min5 > 30)
         h += 1;
 
-    if (min5 == 60) min5 = 0;
+    if (min5 == 60)
+        min5 = 0;
 
-    switch (min5) {
+    switch (min5)
+    {
         case 0:
             light(lit, 9, 5, 6); // OCLOCK
             break;

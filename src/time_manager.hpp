@@ -3,7 +3,7 @@
 // Callback invoked during init to report status for on-screen display.
 // msg is '\n'-delimited: first segment is a short title (rendered large),
 // subsequent segments are detail lines (rendered small).
-typedef void (*TimeManagerStatusCb)(const char* msg);
+typedef void (*TimeManagerStatusCb)(const char *msg);
 
 // Initialises the CYW43 WiFi chip, connects to the network defined in wifi.h,
 // and starts the lwIP SNTP client.  Cycles through 0–3.pool.ntp.org up to
@@ -18,4 +18,3 @@ void time_manager_get(int &hour, int &minute, int &second);
 
 // Returns true once at least one NTP sync has been received.
 bool time_manager_is_synced();
-
