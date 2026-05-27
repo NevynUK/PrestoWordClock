@@ -16,6 +16,7 @@ WordClock/
 │   ├── main.cpp            # Display init, status screen, main render loop
 │   ├── word_clock.cpp/hpp  # Maps hour + minute → set of lit grid cells
 │   ├── time_manager.cpp/hpp# WiFi + NTP time sync; elapsed-time tracking
+│   ├── fileio.cpp          # FatFS file I/O stub (af-file-io interface) — not linked into build
 │   ├── wifi.h              # WiFi credentials and UTC offset — GITIGNORED, never commit
 │   ├── wifi.h.example      # Safe template — copy to wifi.h and fill in credentials
 │   └── lwipopts.h          # lwIP configuration (UDP/DHCP/DNS/SNTP only)
@@ -65,30 +66,33 @@ Copy `src/wifi.h.example` → `src/wifi.h` and set:
 
 ---
 
-## Word Grid (11 × 10)
+## Word Grid (11 × 12)
 
 ```
-I T L I S A S A M P M   ← IT IS
-A C Q U A R T E R D C   ← QUARTER
-T W E N T Y X F I V E   ← TWENTY FIVE
-H A L F S T E N F T O   ← HALF TEN TO
-P A S T E R U N I N E   ← PAST NINE
-O N E S I X T H R E E   ← ONE SIX THREE
-F O U R F I V E T W O   ← FOUR FIVE TWO
-E I G H T E L E V E N   ← EIGHT ELEVEN
-S E V E N T W E L V E   ← SEVEN TWELVE
-T E N S E O C L O C K   ← TEN O'CLOCK
+I T H I S U N E A R L Y   ← IT IS NEARLY
+J U S T E A F T E R R Y   ← JUST AFTER
+A T Q U A R T E R S L Y   ← QUARTER
+T W E N T Y O F I V E S   ← TWENTY FIVE
+H A L F A T E N O T O N   ← HALF TEN TO
+P A S T E R U N I N E S   ← PAST NINE
+O N E S I X T H R E E L   ← ONE SIX THREE
+F O U R F I V E T W O E   ← FOUR FIVE TWO
+E I G H T E L E V E N S   ← EIGHT ELEVEN
+S E V E N T W E L V E T   ← SEVEN TWELVE
+T E N A T O C L O C K S   ← TEN O'CLOCK
 ```
 
 Minutes are rounded to the nearest 5: O'CLOCK → FIVE PAST → TEN PAST → QUARTER PAST → TWENTY PAST → TWENTY FIVE PAST → HALF PAST → TWENTY FIVE TO → TWENTY TO → QUARTER TO → TEN TO → FIVE TO.
+
+Sub-5-minute offsets add a modifier: 1–2 minutes past a 5-minute boundary lights **JUST** and **AFTER**; 3–4 minutes past lights **NEARLY** and advances to the next 5-minute phrase.
 
 ---
 
 ## Display Layout
 
-- Scale-3 characters: 18×24 px glyph, 21×24 px cell.
-- 11 columns × 21 px = 231 px; 4 px left margin centres the grid in 240 px.
-- 10 rows × 24 px = 240 px (exact fit, no vertical margin needed).
+- Scale-2 characters: 12×16 px glyph (6×8 base font), 20×21 px cell.
+- 12 columns × 20 px = 240 px (exact horizontal fit, no left/right margin).
+- 11 rows × 21 px = 231 px; 4 px top/bottom margin centres the grid vertically.
 - Background: dark navy `#050514`; inactive letters: dim warm grey; active letters: warm amber `#FFC832`.
 
 ---
