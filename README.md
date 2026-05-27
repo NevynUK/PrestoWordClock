@@ -4,7 +4,7 @@
 
 [![Run Checks](https://github.com/NevynUK/PrestoWordClock/actions/workflows/checks.yml/badge.svg)](https://github.com/NevynUK/PrestoWordClock/actions/workflows/checks.yml)
 
-![Screen shot](Documentation/Media/PrestoWordClock.jpg)
+![Nerly Eleven OClock](Documentation/Media/ItIsTwentyPastFive.jpg)
 
 C++ implementation of a word clock for the [Pimoroni Presto](https://shop.pimoroni.com/products/presto?variant=54894104019323).
 
@@ -56,6 +56,6 @@ It is necessary to produce the WiFi header file before building the code:
 
 ## Screen shots
 
-![Nerly Eleven OClock](Documentation/Media/ItIsNearlyElevenOClock.jpg)
+![Nerly Eleven OClock](Documentation/Media/ItIsNearlyTwentyPastFive.jpg)
 
-![Nerly Eleven OClock](Documentation/Media/ItIsElevenOClock.jpg)
+![Nerly Eleven OClock](Documentation/Media/ItIsTwentyPastFive.jpg)
