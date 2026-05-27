@@ -1,0 +1,15 @@
+#pragma once
+
+// ── WiFi credentials ─────────────────────────────────────────────────────────
+// Copy this file to wifi.h and fill in your details.
+// wifi.h is listed in .gitignore so credentials are never committed.
+
+#define WIFI_SSID     "your_network_name"
+#define WIFI_PASSWORD "your_password"
+
+// ── Timezone ──────────────────────────────────────────────────────────────────
+// Offset from UTC in seconds.
+// Examples:  0       → GMT (UTC+0)
+//            3600    → BST (UTC+1, British Summer Time)
+//           -18000   → EST (UTC-5)
+#define UTC_OFFSET_SECONDS 0
