@@ -28,19 +28,19 @@ uint16_t front_buffer[FRAME_WIDTH * FRAME_HEIGHT];
 
 // ─── Layout constants ────────────────────────────────────────────────────────
 //
-// Character scale=3 → each glyph is 18 px wide × 24 px tall (6×8 base font).
-// Cell size: 21 × 24 px  →  11 cols × 21 = 231 px,  10 rows × 24 = 240 px.
-// A 4 px left margin centres the 231 px grid inside the 240 px display.
+// Character scale=2 → each glyph is 12 px wide × 16 px tall (6×8 base font).
+// Cell size: 20 × 21 px  →  12 cols × 20 = 240 px,  11 rows × 21 = 231 px.
+// No horizontal margin; 4 px top/bottom margin centres the grid vertically.
 
-static constexpr int CHAR_SCALE = 3;
-static constexpr int CHAR_W = 6 * CHAR_SCALE;                          // 18 px
-static constexpr int CHAR_H = 8 * CHAR_SCALE;                          // 24 px
-static constexpr int CELL_W = 21;
-static constexpr int CELL_H = 24;
+static constexpr int CHAR_SCALE = 2;
+static constexpr int CHAR_W = 6 * CHAR_SCALE;                          // 12 px
+static constexpr int CHAR_H = 8 * CHAR_SCALE;                          // 16 px
+static constexpr int CELL_W = 20;
+static constexpr int CELL_H = 21;
 static constexpr int GRID_X = (FRAME_WIDTH - GRID_COLS * CELL_W) / 2;  // 4 px
-static constexpr int GRID_Y = (FRAME_HEIGHT - GRID_ROWS * CELL_H) / 2; // 0 px
-static constexpr int CHAR_OFF_X = (CELL_W - CHAR_W) / 2;               // 1 px
-static constexpr int CHAR_OFF_Y = (CELL_H - CHAR_H) / 2;               // 0 px
+static constexpr int GRID_Y = (FRAME_HEIGHT - GRID_ROWS * CELL_H) / 2; // 4 px
+static constexpr int CHAR_OFF_X = (CELL_W - CHAR_W) / 2;               // 4 px
+static constexpr int CHAR_OFF_Y = (CELL_H - CHAR_H) / 2;               // 2 px
 
 // ─── Colours (RGB565) ────────────────────────────────────────────────────────
 
@@ -73,7 +73,9 @@ static void render_status(const char *msg)
     char *p = buf;
     char *nl = strchr(p, '\n');
     if (nl)
+    {
         *nl++ = '\0';
+    }
 
     // Title line — large
     g_display->set_pen(PEN_LIT);
@@ -127,7 +129,7 @@ int main()
     time_manager_init(render_status);
 
     bool lit[GRID_ROWS][GRID_COLS];
-    int prev_min5 = -1;
+    int prev_minute = -1;
 
     while (true)
     {
@@ -145,13 +147,12 @@ int main()
             continue;
         }
 
-        int min5 = (minute + 2) / 5 * 5;
-        if (min5 == prev_min5)
+        if (minute == prev_minute)
         {
             sleep_ms(200);
             continue;
         }
-        prev_min5 = min5;
+        prev_minute = minute;
 
         get_lit_cells(hour, minute, lit);
 

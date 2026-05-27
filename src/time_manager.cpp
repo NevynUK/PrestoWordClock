@@ -47,7 +47,9 @@ static void dns_diag_callback(const char *name, const ip_addr_t *addr, void * /*
 {
     s_dns_ok = (addr != nullptr);
     if (addr)
+    {
         s_dns_addr = *addr;
+    }
     s_dns_done = true;
 }
 
@@ -71,7 +73,9 @@ static void print_network_config()
     {
         const ip_addr_t *a = dns_getserver(i);
         if (a && !ip_addr_isany(a))
+        {
             printf("  DNS[%d]: %s\n", i, ipaddr_ntoa(a));
+        }
     }
     cyw43_arch_lwip_end();
 }
@@ -94,11 +98,17 @@ static void test_dns(const char *hostname)
     {
         absolute_time_t dl = make_timeout_time_ms(8000);
         while (!s_dns_done && !time_reached(dl))
+        {
             sleep_ms(50);
+        }
         if (s_dns_ok)
+        {
             printf("DNS: '%s' -> %s\n", hostname, ipaddr_ntoa(&s_dns_addr));
+        }
         else
+        {
             printf("DNS: '%s' FAILED — check DNS server / network connectivity\n", hostname);
+        }
     }
     else
     {
@@ -111,7 +121,9 @@ static void test_dns(const char *hostname)
 void time_manager_init(TimeManagerStatusCb status_cb)
 {
     if (status_cb)
+    {
         status_cb("WIFI\nConnecting...");
+    }
     printf("WiFi: initialising...\n");
 
     if (cyw43_arch_init())
@@ -150,7 +162,9 @@ void time_manager_init(TimeManagerStatusCb status_cb)
 
             snprintf(status_buf, sizeof(status_buf), "NTP\n%s\nAttempt %d of %d", NTP_SERVERS[i], attempt, max_attempts);
             if (status_cb)
+            {
                 status_cb(status_buf);
+            }
 
             cyw43_arch_lwip_begin();
             sntp_stop();
