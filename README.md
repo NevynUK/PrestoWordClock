@@ -20,6 +20,20 @@ Implement a NTP enabled word clock running on the Presto with the following feat
     - 09:05 **It is five past nine**
     - 09:06 **It is just after five past nine**
 
+## How the Code was Generated
+
+The majority of the work in this project was performed by Copilot running the Claude Sonnet 4.6 LLM.  It was created this way to:
+
+- Examine how the LLM would deal with a brief specification
+- Verify that the LLM can deal with the missing prerequisite API
+    - Pico SDK and tools
+    - Presto libraries
+- Take an existing C sample and convert the code to make it work with the specification
+
+In general the LLM did well.  The whole process took 1.5 hours to generate the initial application (this needed one intervention for a bug).  There was a follow up 2 hours session where the display specification was modified.
+
+My initial estimate for to do the work myself was about 3-5 days given no familiarity with the Presto development board or the libraries.
+
 ## Building the code
 
 There are three **bash** scripts in the repository:
