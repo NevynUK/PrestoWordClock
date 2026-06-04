@@ -13,7 +13,7 @@
 //  Row  String          Words hidden inside
 //  ---  ------------    --------------------------------------------------------
 //   0   ITHISUNEARLY    IT(0-1)  IS(3-4)  NEARLY(6-11)  +HIS(2-4)  +SUN(4-6)
-//   1   JUSTEAFTERRY    JUST(0-3)  AFTER(5-9)  +TEA(3-5)  +TERRY(7-11)
+//   1   JUSTEAFTEROB    JUST(0-3)  AFTER(5-9)  +TEA(3-5)  +ROB(9-11)
 //   2   ATQUARTERSLY    QUARTER(2-8)  +AT(0-1)  +QUARTERS(2-9)  +SLY(9-11)
 //   3   TWENTYOFIVES    TWENTY(0-5)  FIVE-min(7-10)  +YO(5-6)  +OF(6-7)  +FIVES(7-11)
 //   4   HALFATENOTON    HALF(0-3)  TEN-min(5-7)  TO(9-10)  +FAT(3-5)  +NOT(7-9)  +ON(10-11)
@@ -22,10 +22,10 @@
 //   7   FOURFIVETWOE    FOUR(0-3)  FIVE-hr(4-7)  TWO(8-10)  +WOE(9-11)  +OE(10-11)
 //   8   EIGHTELEVENS    EIGHT(0-4)  ELEVEN(5-10)  +ELEVENS(5-11)
 //   9   SEVENTWELVET    SEVEN(0-4)  TWELVE(5-10)  +VET(9-11)
-//  10   TENATOCLOCKS    TEN-hr(0-2)  OCLOCK(5-10)  +AT(3-4)  +TO(4-5)  +CLOCKS(6-11)
+//  10   TENTOOCLOCKS    TEN-hr(0-2)  OCLOCK(5-10)  +AT(3-4)  +TO(4-5)  +CLOCKS(6-11)
 
 const char GRID[GRID_ROWS][GRID_COLS + 1] = {
-    "ITHISUNEARLY", "JUSTEAFTERRY", "ATQUARTERSLY", "TWENTYOFIVES", "HALFATENOTON", "PASTERUNINES", "ONESIXTHREEL", "FOURFIVETWOE", "EIGHTELEVENS", "SEVENTWELVET", "TENATOCLOCKS",
+    "ITHISUNEARLY", "JUSTEAFTEROB", "ATQUARTERSLY", "TWENTYOFIVES", "HALFATENOTON", "PASTERUNINES", "ONESIXTHREEL", "FOURFIVETWOE", "EIGHTELEVENS", "SEVENTWELVET", "TENATOCLOCKS",
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
